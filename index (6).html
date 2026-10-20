@@ -1,0 +1,675 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0d3449"><title>Reto 50 · Recursos Turísticos</title><style>
+:root{font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:#183344;background:#f0f7f7}*{box-sizing:border-box}body{margin:0}header{background:#0d3449;color:white;padding:18px 22px}header .head{max-width:960px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:10px}header b{font-size:20px}header small{color:#bad7db}main{max-width:880px;margin:35px auto;padding:0 16px 60px}.card{background:white;border:1px solid #d6e5e7;border-radius:20px;padding:clamp(20px,4vw,38px);box-shadow:0 12px 40px #19475b12}.hero{background:linear-gradient(135deg,#0b4554,#13796b);color:#fff;padding:30px;border-radius:16px;margin-bottom:24px}.hero h1{font-size:clamp(30px,5vw,46px);line-height:1.08;margin:10px 0}.hero p{color:#d9f4ed;margin-bottom:0}.eyebrow{text-transform:uppercase;letter-spacing:.16em;font-size:12px;font-weight:800;color:#168e79}.hero .eyebrow{color:#9be8d2}h2{font-size:25px;margin:6px 0 18px}h3{margin-top:22px}p{line-height:1.6}.subtle{color:#59727d}.pill{border-radius:30px;background:#e7f6f2;color:#17705f;font-size:12px;padding:7px 12px;font-weight:750;display:inline-block}.row{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}label{display:block;font-weight:700;margin-bottom:8px}input{width:100%;padding:14px;border:1px solid #afc9cc;border-radius:10px;font:inherit}button{border:0;border-radius:11px;padding:13px 20px;font:inherit;font-weight:750;cursor:pointer;background:#087e72;color:#fff}button:hover{filter:brightness(.93)}button.secondary{background:#e9f2f3;color:#225265}button:disabled{opacity:.45;cursor:not-allowed}.buttonbar{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}.progress{height:9px;background:#e4edef;border-radius:20px;overflow:hidden;margin:16px 0 30px}.progress>div{height:100%;background:#149b83;transition:width .2s}.choice{display:flex;gap:14px;align-items:flex-start;width:100%;background:#fff;color:#183344;border:2px solid #d7e8e7;margin:10px 0;padding:16px;text-align:left}.choice:hover{border-color:#159881;background:#f3fbf8}.choice.active{border-color:#087e72;background:#e1f6ee}.choice span:first-child{background:#e7eff0;border-radius:8px;padding:3px 9px;color:#32616f}.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:20px 0}.kpi{border:1px solid #d8e8e7;border-radius:12px;padding:16px;text-align:center}.kpi strong{display:block;font-size:28px;color:#0b756a}.blockrow{display:grid;grid-template-columns:1fr 80px 100px;gap:10px;padding:12px 0;border-bottom:1px solid #e6eeee}.review{padding:18px 0;border-bottom:1px solid #dce9ea}.review h4{margin:6px 0}.correct{color:#087b55}.wrong{color:#ac433f}.quiet{color:#54737c}.tip{background:#edf8f5;border-left:4px solid #2a9b83;padding:13px 16px;border-radius:5px;margin:14px 0}.alert{background:#fff4df;border:1px solid #eac57b;padding:13px 16px;border-radius:8px}.hidden{display:none!important}footer{font-size:12px;color:#65828a;text-align:center;padding:20px}.step{font-size:13px;color:#40606d;font-weight:700}.badgelist{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.answered{background:#d8f0e7;color:#17634c}.pending{background:#fff1dd;color:#8b5a18}.reviewanswers{display:grid;gap:12px}.reviewitem{padding:16px;border:1px solid #dcebea;border-radius:12px}.reviewitem p{margin:5px 0}.report-head{display:none}@media print{header,.noprint,footer,.hero{display:none!important}body{background:white}.card{border:0;box-shadow:none;padding:0}main{margin:0;max-width:none}.report-head{display:block}.review{break-inside:avoid}.blockrow{break-inside:avoid}#reviewPanel{display:none!important}}@media(max-width:500px){.blockrow{grid-template-columns:1fr auto}.blockrow span:last-child{grid-column:1/-1}}
+</style></head><body><header><div class="head"><div><b>🌍 RETO 50</b><div><small>Unidad 1 · Identificación de recursos turísticos</small></div></div><span class="pill">FP Grado Superior</span></div></header><main><section id="intro" class="card"><div class="hero"><div class="eyebrow">Tu aventura de repaso</div><h1>¿Cuánto sabes de recursos turísticos?</h1><p>50 preguntas · 5 bloques · Evaluación automática · Sin límite de tiempo</p></div><h2>Antes de comenzar</h2><p>Realiza el cuestionario a tu ritmo. Podrás cambiar tus respuestas y corregirás todo al finalizar.</p><label for="student">Nombre y apellidos</label><input id="student" maxlength="100" placeholder="Escribe tu nombre completo" autocomplete="name"><div class="badgelist"><span class="pill">15 fáciles</span><span class="pill">25 intermedias</span><span class="pill">10 avanzadas</span><span class="pill">0,20 puntos por acierto</span></div><div id="resumeBox" class="hidden tip">Hay una partida guardada en este navegador. <button id="resume" type="button">Continuar partida</button> <button id="discard" class="secondary" type="button">Descartar</button></div><button id="start" type="button">Comenzar test →</button><p class="subtle" style="font-size:13px">Las respuestas permanecen en este navegador; no se envían automáticamente al profesorado.</p></section>
+<section id="quiz" class="card hidden"><div class="row"><span id="blockTitle" class="eyebrow"></span><span class="step" id="counter"></span></div><div class="progress"><div id="progressFill"></div></div><h2 id="questionText"></h2><div id="choices"></div><div class="row"><span class="subtle" id="answeredCount"></span><button class="secondary" id="overview" type="button">Ver preguntas pendientes</button></div><div id="pendingBox" class="hidden alert"></div><div class="buttonbar"><button class="secondary" id="prev" type="button">← Anterior</button><button id="next" type="button">Siguiente →</button><button id="finish" class="hidden" type="button">Finalizar y corregir</button></div></section>
+<section id="results" class="card hidden"><div class="report-head"><h1>RETO 50 · Informe de resultados</h1></div><span class="eyebrow">Evaluación final</span><h2 id="resultHeadline">Tus resultados</h2><p id="who"></p><div class="kpis" id="kpis"></div><h3>Resultados por bloques</h3><div id="blocks"></div><h3>Contenidos que necesitas repasar</h3><div id="suggestions"></div><p class="subtle">Las preguntas incorrectas o sin responder puntúan 0. No hay penalización adicional.</p><div class="buttonbar noprint"><button id="toggleReview">Revisar mis respuestas</button><button id="print" class="secondary">Descargar informe en PDF / Imprimir</button><button id="restart" class="secondary">Repetir con otro orden</button></div><div id="reviewPanel" class="hidden"><h3>Revisión de las 50 preguntas</h3><div id="reviewContent"></div></div></section></main><footer>Basado en «Unidad 1 · Identificación de recursos turísticos». Actividad de repaso, no prueba oficial. Esta aplicación funciona sin servidor.</footer><script>
+const QUESTIONS=[
+  {
+    "b": 1,
+    "d": "F",
+    "q": "¿Qué caracteriza principalmente a un recurso turístico?",
+    "o": [
+      "Es siempre una construcción humana",
+      "Tiene capacidad para atraer o motivar desplazamientos turísticos",
+      "Es necesariamente un bien declarado BIC",
+      "Solo puede ser un paisaje natural"
+    ],
+    "a": 1,
+    "e": "Los recursos turísticos actúan como elementos de atracción que motivan viajes."
+  },
+  {
+    "b": 1,
+    "d": "F",
+    "q": "Según el tema, ¿qué relación resume la fórmula «recurso turístico»?",
+    "o": [
+      "Alojamiento más transporte",
+      "Patrimonio menos visitantes",
+      "Atractivo turístico más aportación humana",
+      "Publicidad más venta"
+    ],
+    "a": 2,
+    "e": "El tema resume el concepto como atractivo turístico más aportación humana."
+  },
+  {
+    "b": 1,
+    "d": "M",
+    "q": "¿Qué diferencia establece la unidad entre patrimonio turístico potencial y recurso puesto en valor?",
+    "o": [
+      "El patrimonio potencial puede existir antes de incorporar infraestructuras y servicios",
+      "El patrimonio solo se refiere a hoteles",
+      "El recurso carece de interés para visitantes",
+      "No existe ninguna diferencia"
+    ],
+    "a": 0,
+    "e": "El potencial del territorio puede convertirse en atractivo turístico mediante la aportación humana."
+  },
+  {
+    "b": 1,
+    "d": "F",
+    "q": "¿Qué puede formar parte de un atractivo turístico según las definiciones estudiadas?",
+    "o": [
+      "Únicamente objetos materiales",
+      "Solo equipamientos públicos",
+      "Exclusivamente actividades gratuitas",
+      "Elementos materiales o inmateriales capaces de motivar visitas"
+    ],
+    "a": 3,
+    "e": "El material contempla bienes materiales e inmateriales."
+  },
+  {
+    "b": 1,
+    "d": "A",
+    "q": "Un lugar cuenta con un paisaje valioso, pero carece de accesos e información. ¿Qué actuación se ajusta mejor al tema?",
+    "o": [
+      "Eliminar toda actividad turística",
+      "Crear servicios y accesos adecuados para favorecer su aprovechamiento",
+      "Sustituir el paisaje por construcciones",
+      "Clasificarlo obligatoriamente como litomo"
+    ],
+    "a": 1,
+    "e": "La aportación humana, entre ella las infraestructuras, facilita transformar el potencial en producto atractivo."
+  },
+  {
+    "b": 2,
+    "d": "F",
+    "q": "¿Cuál de los siguientes es un recurso natural relacionado con el agua?",
+    "o": [
+      "Un castillo",
+      "Una feria artesanal",
+      "Un acantilado costero",
+      "Un museo"
+    ],
+    "a": 2,
+    "e": "Los acantilados y costas figuran en los naturales vinculados al agua."
+  },
+  {
+    "b": 2,
+    "d": "F",
+    "q": "¿Qué grupo pertenece a los recursos histórico-patrimoniales?",
+    "o": [
+      "Monumentos, catedrales y yacimientos arqueológicos",
+      "Clima, flora y relieve",
+      "Folclore, gastronomía y fiestas",
+      "Parques acuáticos y centros comerciales"
+    ],
+    "a": 0,
+    "e": "El material incluye estas construcciones y vestigios entre los histórico-patrimoniales."
+  },
+  {
+    "b": 2,
+    "d": "F",
+    "q": "¿Qué recurso es etnográfico-cultural?",
+    "o": [
+      "Un embalse",
+      "Una montaña",
+      "Una ría",
+      "Una tradición gastronómica local"
+    ],
+    "a": 3,
+    "e": "Las tradiciones y gastronomía son manifestaciones culturales propias de un territorio."
+  },
+  {
+    "b": 2,
+    "d": "M",
+    "q": "¿Qué distingue a un recurso original de uno complementario?",
+    "o": [
+      "El original siempre es gratuito",
+      "El original es propio de su naturaleza; el complementario lo crea el ser humano para ampliar la atracción",
+      "El complementario no admite visitantes",
+      "El original siempre es un edificio"
+    ],
+    "a": 1,
+    "e": "Es la distinción según su creación explicada en la unidad."
+  },
+  {
+    "b": 2,
+    "d": "F",
+    "q": "Un recurso que genera por sí solo corrientes turísticas se clasifica, por su interés, como:",
+    "o": [
+      "Potencial",
+      "Para residentes",
+      "De gran interés",
+      "De interés local"
+    ],
+    "a": 2,
+    "e": "Los recursos de gran interés pueden motivar flujos turísticos por sí solos."
+  },
+  {
+    "b": 2,
+    "d": "M",
+    "q": "¿Cuál es la definición de recurso turístico potencial?",
+    "o": [
+      "Un recurso susceptible de convertirse en un nuevo atractivo para turistas",
+      "Un recurso visitado solo por residentes",
+      "Un recurso al que está prohibido acceder",
+      "Una infraestructura destinada únicamente al alojamiento"
+    ],
+    "a": 0,
+    "e": "Potencial significa que puede desarrollarse como recurso turístico."
+  },
+  {
+    "b": 2,
+    "d": "M",
+    "q": "Según la distancia, ¿qué caracteriza al recurso para excursiones?",
+    "o": [
+      "Su uso exclusivo por turistas extranjeros",
+      "La obligatoriedad de pasar un mes en destino",
+      "La ausencia de desplazamientos",
+      "Un desplazamiento de un día o fin de semana"
+    ],
+    "a": 3,
+    "e": "La clasificación del tema asocia excursiones a desplazamientos breves."
+  },
+  {
+    "b": 2,
+    "d": "F",
+    "q": "¿Cuál NO es una de las cinco categorías de Godfrey y Clarke citadas en la unidad?",
+    "o": [
+      "Naturales",
+      "Hoteles",
+      "Eventos",
+      "Residentes"
+    ],
+    "a": 1,
+    "e": "Las categorías son naturales, culturales, eventos, actividades y residentes."
+  },
+  {
+    "b": 2,
+    "d": "M",
+    "q": "Según Godfrey y Clarke, ¿en qué categoría encaja una feria comercial?",
+    "o": [
+      "Eventos",
+      "Residentes",
+      "Naturales",
+      "Clima"
+    ],
+    "a": 0,
+    "e": "Ferias comerciales y congresos se incluyen en eventos."
+  },
+  {
+    "b": 2,
+    "d": "M",
+    "q": "En el modelo de Godfrey y Clarke, la amabilidad de la población local se relaciona con:",
+    "o": [
+      "Actividades",
+      "Eventos",
+      "Residentes",
+      "Recursos hídricos"
+    ],
+    "a": 2,
+    "e": "La actitud y acogida de los residentes constituyen una categoría del modelo."
+  },
+  {
+    "b": 2,
+    "d": "M",
+    "q": "Para Pierre Defert, un recurso hidromo está relacionado principalmente con:",
+    "o": [
+      "Museos",
+      "Tradiciones",
+      "Vestigios históricos",
+      "El agua natural o modificada por el ser humano"
+    ],
+    "a": 3,
+    "e": "La tipología hidromo comprende recursos basados en el agua."
+  },
+  {
+    "b": 2,
+    "d": "M",
+    "q": "¿Cuál es un ejemplo de recurso phitomo según Pierre Defert?",
+    "o": [
+      "Un archivo histórico",
+      "La vegetación y el relieve",
+      "Un desfile folclórico",
+      "Una catedral"
+    ],
+    "a": 1,
+    "e": "Phitomo hace referencia a elementos terrestres naturales distintos del agua."
+  },
+  {
+    "b": 2,
+    "d": "M",
+    "q": "¿Qué caracteriza a los recursos litomos?",
+    "o": [
+      "Construcciones humanas de interés por su naturaleza o uso",
+      "Aguas marítimas",
+      "Elementos intangibles de memoria",
+      "Actitud de la población"
+    ],
+    "a": 0,
+    "e": "Se refieren a elementos construidos, como monumentos o museos."
+  },
+  {
+    "b": 2,
+    "d": "A",
+    "q": "Una ruta basada en la artesanía, el folclore y la gastronomía se vincula en Pierre Defert principalmente con lo:",
+    "o": [
+      "Hidromo",
+      "Phitomo",
+      "Antropomo",
+      "Litomo"
+    ],
+    "a": 2,
+    "e": "Antropomo sitúa al ser humano y sus manifestaciones socioculturales en el centro."
+  },
+  {
+    "b": 2,
+    "d": "A",
+    "q": "¿Qué caracteriza al mnemome en la clasificación de Pierre Defert?",
+    "o": [
+      "Los paisajes de montaña",
+      "Las instalaciones de ocio",
+      "Las aguas termales",
+      "Los elementos intangibles ligados a la memoria del pasado"
+    ],
+    "a": 3,
+    "e": "El tema asocia mnemome con la memoria histórica que motiva visitas."
+  },
+  {
+    "b": 3,
+    "d": "F",
+    "q": "¿Para qué sirve principalmente un inventario de recursos turísticos?",
+    "o": [
+      "Para fijar salarios del sector",
+      "Para identificar, describir y localizar recursos y apoyar su gestión",
+      "Para conceder automáticamente licencias",
+      "Para sustituir la normativa patrimonial"
+    ],
+    "a": 1,
+    "e": "Identificar, describir y localizar son funciones básicas de un inventario."
+  },
+  {
+    "b": 3,
+    "d": "F",
+    "q": "¿Qué organismo aporta en el tema una definición de inventario como catálogo de elementos de interés turístico?",
+    "o": [
+      "ICOM",
+      "UICN",
+      "IPCE",
+      "OEA"
+    ],
+    "a": 3,
+    "e": "La Organización de Estados Americanos define el inventario como catálogo de lugares, objetos o establecimientos."
+  },
+  {
+    "b": 3,
+    "d": "M",
+    "q": "¿Qué dato es pertinente en una ficha de inventario?",
+    "o": [
+      "Accesos y localización geográfica",
+      "Opiniones sobre destinos rivales sin justificar",
+      "Información bancaria del visitante",
+      "Datos privados del personal"
+    ],
+    "a": 0,
+    "e": "La ficha recoge localización, accesibilidad y otros datos del recurso."
+  },
+  {
+    "b": 3,
+    "d": "M",
+    "q": "¿Qué característica determina en gran medida las posibilidades de aprovechamiento de un recurso?",
+    "o": [
+      "El color de la publicidad",
+      "El nombre del municipio por sí solo",
+      "Sus características y condiciones de acceso",
+      "El número de hoteles del país"
+    ],
+    "a": 2,
+    "e": "El potencial depende de las propiedades del recurso, entre otros aspectos."
+  },
+  {
+    "b": 3,
+    "d": "M",
+    "q": "¿Cuál de estos criterios aparece en la valoración del recurso turístico?",
+    "o": [
+      "Número de seguidores de cada turista",
+      "Singularidad y estado de conservación",
+      "Marca del vehículo de los visitantes",
+      "Color del uniforme del personal"
+    ],
+    "a": 1,
+    "e": "El tema propone singularidad, conservación, aprovechamiento y notoriedad."
+  },
+  {
+    "b": 3,
+    "d": "M",
+    "q": "Según el tema, la OMT propuso en 1978 una ficha con:",
+    "o": [
+      "Cinco contenidos",
+      "Diez contenidos",
+      "Treinta contenidos",
+      "Diecinueve contenidos básicos"
+    ],
+    "a": 3,
+    "e": "El material enumera 19 contenidos en esa propuesta de ficha."
+  },
+  {
+    "b": 3,
+    "d": "M",
+    "q": "¿Cuál de estos campos figura entre los contenidos propuestos por la OMT?",
+    "o": [
+      "Relaciones con otros recursos",
+      "Nota media de visitantes",
+      "Ingresos familiares de los turistas",
+      "Preferencias del examinador"
+    ],
+    "a": 0,
+    "e": "La relación con otros recursos aparece entre los 19 contenidos."
+  },
+  {
+    "b": 3,
+    "d": "A",
+    "q": "Se dispone de fichas completas, pero no se han ordenado los recursos ni analizado su potencial. ¿Qué falta?",
+    "o": [
+      "Eliminar las fichas",
+      "Publicar ofertas de empleo",
+      "Clasificarlos y analizar su potencial como base de planificación",
+      "Calcular únicamente los precios de entradas"
+    ],
+    "a": 2,
+    "e": "El proceso continúa con clasificación, análisis de potencial e informe de planificación."
+  },
+  {
+    "b": 3,
+    "d": "A",
+    "q": "Dos recursos similares muestran diferente estado de conservación. ¿Cómo debe reflejarse esa diferencia en el inventario?",
+    "o": [
+      "Ignorándola para que ambos tengan igual resultado",
+      "Valorando explícitamente su conservación en cada ficha",
+      "Eliminando el recurso peor conservado de inmediato",
+      "Sustituyendo las fotografías por publicidad"
+    ],
+    "a": 1,
+    "e": "El estado de conservación es criterio relevante de valoración."
+  },
+  {
+    "b": 3,
+    "d": "M",
+    "q": "¿Por qué el inventario debe elaborarse antes de planificar el desarrollo turístico?",
+    "o": [
+      "Porque garantiza que todo recurso será rentable",
+      "Porque establece por sí solo la propiedad pública",
+      "Porque elimina cualquier impacto ambiental",
+      "Porque permite conocer el patrimonio y estimar su potencial"
+    ],
+    "a": 3,
+    "e": "El inventario aporta información para la gestión y planificación del destino."
+  },
+  {
+    "b": 4,
+    "d": "F",
+    "q": "¿Cuál es la ley estatal de Patrimonio Histórico Español indicada en el tema?",
+    "o": [
+      "Ley 16/1985, de 25 de junio",
+      "Ley 42/2007",
+      "Ley 22/1988",
+      "Real Decreto Legislativo 7/2015"
+    ],
+    "a": 0,
+    "e": "La Ley 16/1985 es la norma patrimonial citada en el tema."
+  },
+  {
+    "b": 4,
+    "d": "M",
+    "q": "¿Qué figura permite aumentar la protección de determinados bienes patrimoniales?",
+    "o": [
+      "Turista de interés",
+      "Zona de ocio",
+      "Bien de Interés Cultural (BIC)",
+      "Recurso potencial"
+    ],
+    "a": 2,
+    "e": "La unidad explica la declaración de bienes de interés cultural."
+  },
+  {
+    "b": 4,
+    "d": "M",
+    "q": "¿Cuál es una categoría de inmueble prevista por la Ley de Patrimonio Histórico Español?",
+    "o": [
+      "Parque acuático",
+      "Conjunto histórico",
+      "Centro comercial",
+      "Hotel rural"
+    ],
+    "a": 1,
+    "e": "Monumentos, jardines históricos, conjuntos históricos, sitios históricos y zonas arqueológicas figuran en la ley."
+  },
+  {
+    "b": 4,
+    "d": "M",
+    "q": "Un espacio ordenado con elementos naturales y valor histórico o botánico puede clasificarse como:",
+    "o": [
+      "Zona arqueológica",
+      "Monumento",
+      "Suelo urbanizable",
+      "Jardín histórico"
+    ],
+    "a": 3,
+    "e": "Es la definición de jardín histórico recogida en el tema."
+  },
+  {
+    "b": 4,
+    "d": "A",
+    "q": "Un lugar contiene restos susceptibles de estudio mediante métodos arqueológicos. ¿Qué categoría corresponde?",
+    "o": [
+      "Zona arqueológica",
+      "Jardín histórico",
+      "Conjunto hotelero",
+      "Zona de excursiones"
+    ],
+    "a": 0,
+    "e": "La zona arqueológica comprende lugares con bienes que pueden estudiarse arqueológicamente."
+  },
+  {
+    "b": 4,
+    "d": "F",
+    "q": "¿Qué ley se ocupa principalmente de la protección del litoral español según el tema?",
+    "o": [
+      "Ley 16/1985",
+      "Ley 42/2007",
+      "Ley 22/1988, de Costas",
+      "Ley de turismo local"
+    ],
+    "a": 2,
+    "e": "La Ley 22/1988 regula la materia de costas, junto con sus modificaciones."
+  },
+  {
+    "b": 4,
+    "d": "F",
+    "q": "Según la unidad, ¿qué se incluye en el dominio público marítimo-terrestre?",
+    "o": [
+      "Todas las casas cercanas al mar",
+      "La ribera del mar y las rías",
+      "Cualquier restaurante del municipio",
+      "Las fincas privadas del interior"
+    ],
+    "a": 1,
+    "e": "La ribera del mar y de las rías aparece en el artículo 3 citado en el material."
+  },
+  {
+    "b": 4,
+    "d": "A",
+    "q": "Que un bien del dominio público marítimo-terrestre sea «inalienable» significa que:",
+    "o": [
+      "Puede embargarse",
+      "Pasa a ser privado con el tiempo",
+      "Puede venderse libremente",
+      "No puede venderse ni cederse como propiedad"
+    ],
+    "a": 3,
+    "e": "Inalienable significa que no puede enajenarse."
+  },
+  {
+    "b": 4,
+    "d": "M",
+    "q": "¿Qué ley estatal aparece como referencia de espacios naturales y biodiversidad?",
+    "o": [
+      "Ley 42/2007, de 13 de diciembre",
+      "Ley 22/1988",
+      "Ley 16/1985",
+      "Ley 2/2013 exclusivamente"
+    ],
+    "a": 0,
+    "e": "La Ley 42/2007 es la norma citada sobre patrimonio natural y biodiversidad."
+  },
+  {
+    "b": 4,
+    "d": "M",
+    "q": "¿Cuál de estos es un tipo de espacio protegido mencionado en el tema?",
+    "o": [
+      "Aeropuerto",
+      "Polígono industrial",
+      "Reserva natural",
+      "Estación de autobuses"
+    ],
+    "a": 2,
+    "e": "Parques, reservas, áreas marinas protegidas, monumentos naturales y paisajes protegidos aparecen en el tema."
+  },
+  {
+    "b": 4,
+    "d": "A",
+    "q": "¿Qué principio recoge la normativa de patrimonio natural presentada?",
+    "o": [
+      "Aprovechar todos los recursos sin límites",
+      "Conservar la biodiversidad y favorecer el aprovechamiento sostenible",
+      "Construir en cualquier espacio protegido",
+      "Eliminar los ecosistemas menos visitados"
+    ],
+    "a": 1,
+    "e": "Se señalan conservación, restauración y uso ordenado de los recursos."
+  },
+  {
+    "b": 4,
+    "d": "A",
+    "q": "Según la clasificación de suelo explicada en el tema, ¿qué caracteriza al suelo urbano?",
+    "o": [
+      "Está siempre protegido contra cualquier transformación",
+      "Carece siempre de acceso rodado",
+      "Es idéntico al no urbanizable",
+      "Está transformado y dispone de servicios urbanos básicos"
+    ],
+    "a": 3,
+    "e": "El suelo urbano cuenta con acceso rodado y servicios de agua, saneamiento y electricidad, según la unidad."
+  },
+  {
+    "b": 5,
+    "d": "F",
+    "q": "¿Qué significan las siglas UNESCO según el tema?",
+    "o": [
+      "Unión Internacional de Conservación",
+      "Organización Nacional de Recursos",
+      "Organización de las Naciones Unidas para la Educación, la Ciencia y la Cultura",
+      "Instituto del Patrimonio Cultural de España"
+    ],
+    "a": 2,
+    "e": "UNESCO es un organismo internacional vinculado a educación, ciencia y cultura."
+  },
+  {
+    "b": 5,
+    "d": "F",
+    "q": "¿Qué organismo internacional está especializado en museos?",
+    "o": [
+      "ICOM",
+      "OCPM",
+      "IPCE",
+      "AEGPC"
+    ],
+    "a": 0,
+    "e": "ICOM significa Consejo Internacional de Museos."
+  },
+  {
+    "b": 5,
+    "d": "M",
+    "q": "¿Qué siglas corresponden a la Unión Internacional para la Conservación de la Naturaleza?",
+    "o": [
+      "OEA",
+      "ICCROM",
+      "EAA",
+      "UICN"
+    ],
+    "a": 3,
+    "e": "UICN es la Unión Internacional para la Conservación de la Naturaleza."
+  },
+  {
+    "b": 5,
+    "d": "M",
+    "q": "¿Qué entidad internacional está asociada a monumentos y sitios históricos?",
+    "o": [
+      "APAE",
+      "ICOMOS",
+      "IPCE",
+      "OEA"
+    ],
+    "a": 1,
+    "e": "ICOMOS es el Consejo Internacional de Monumentos y Sitios (la unidad lo denomina de Monumentos y Lugares Históricos)."
+  },
+  {
+    "b": 5,
+    "d": "M",
+    "q": "¿Cuál es el Instituto del Patrimonio Cultural de España?",
+    "o": [
+      "OCPM",
+      "EAA",
+      "IPCE",
+      "UICN"
+    ],
+    "a": 2,
+    "e": "El IPCE es un organismo de ámbito estatal enumerado en el tema."
+  },
+  {
+    "b": 5,
+    "d": "M",
+    "q": "¿Cuál de los siguientes se menciona como agente autonómico de protección?",
+    "o": [
+      "Dirección General de Patrimonio Cultural",
+      "ONU",
+      "ICOM",
+      "ICCROM"
+    ],
+    "a": 0,
+    "e": "El material sitúa las direcciones generales de patrimonio cultural entre los agentes autonómicos."
+  },
+  {
+    "b": 5,
+    "d": "M",
+    "q": "Un recurso natural sufre deterioro por uso turístico excesivo. ¿Qué actuación es coherente con la unidad?",
+    "o": [
+      "Promocionarlo sin evaluar impactos",
+      "Ignorar su conservación",
+      "Eliminar su ficha de inventario",
+      "Analizar su estado y planificar medidas de conservación y aprovechamiento sostenible"
+    ],
+    "a": 3,
+    "e": "La planificación y protección exigen inventariar, valorar y conservar los recursos."
+  },
+  {
+    "b": 5,
+    "d": "A",
+    "q": "Un museo patrimonial necesita asesoramiento especializado. ¿Qué asociación entre ámbito y organismo es correcta?",
+    "o": [
+      "ICOM – legislación urbanística municipal",
+      "ICOM – ámbito internacional de museos",
+      "UICN – inventarios de bibliotecas exclusivamente",
+      "IPCE – organismo internacional de la ONU"
+    ],
+    "a": 1,
+    "e": "ICOM trabaja en el ámbito internacional de los museos."
+  }
+];
+const TITLES=['','Concepto de recurso turístico','Clasificación y tipologías','Inventarios y valoración','Legislación y protección','Organismos y casos prácticos'];
+const KEY='reto50_recursos_v1';let state=null;
+const $=id=>document.getElementById(id);const show=id=>{['intro','quiz','results'].forEach(x=>$(x).classList.toggle('hidden',x!==id));window.scrollTo(0,0)};
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const save=()=>localStorage.setItem(KEY,JSON.stringify(state));
+function start(){const name=$('student').value.trim();if(!name){$('student').focus();alert('Introduce tu nombre y apellidos.');return}state={name,idx:0,submitted:false,order:shuffle(QUESTIONS.map((_,i)=>i)),choices:QUESTIONS.map(q=>shuffle([0,1,2,3])),answers:{},date:new Date().toLocaleString('es-ES')};save();renderQuestion();show('quiz')}
+function renderQuestion(){const qi=state.order[state.idx],q=QUESTIONS[qi],choice=state.choices[qi];$('blockTitle').textContent='Bloque '+q.b+' · '+TITLES[q.b];$('counter').textContent='Pregunta '+(state.idx+1)+' de 50';$('progressFill').style.width=((state.idx+1)/50*100)+'%';$('questionText').textContent=q.q;$('choices').innerHTML='';choice.forEach((o,i)=>{let b=document.createElement('button');b.type='button';b.className='choice'+(state.answers[qi]===o?' active':'');b.innerHTML='<span>'+('ABCD'[i])+'</span><span>'+esc(q.o[o])+'</span>';b.onclick=()=>{state.answers[qi]=o;save();renderQuestion()};$('choices').append(b)});$('answeredCount').textContent=Object.keys(state.answers).length+' de 50 respondidas';$('prev').disabled=state.idx===0;$('next').classList.toggle('hidden',state.idx===49);$('finish').classList.toggle('hidden',state.idx!==49);$('pendingBox').classList.add('hidden')}
+$('start').onclick=start;$('prev').onclick=()=>{if(state.idx>0){state.idx--;save();renderQuestion()}};$('next').onclick=()=>{if(state.idx<49){state.idx++;save();renderQuestion()}};
+$('overview').onclick=()=>{const miss=state.order.map((q,i)=>state.answers[q]===undefined?i+1:null).filter(Boolean);let box=$('pendingBox');box.classList.toggle('hidden');box.innerHTML=miss.length?'Sin responder: '+miss.join(', ')+'. <p>Utiliza Anterior/Siguiente para volver a ellas.</p>':'¡Todas las preguntas están respondidas!'};
+$('finish').onclick=()=>{const missing=QUESTIONS.length-Object.keys(state.answers).length;if(!confirm(missing?'Quedan '+missing+' preguntas sin responder. ¿Deseas finalizar igualmente?':'¿Quieres finalizar el cuestionario y ver tu nota?'))return;state.submitted=true;save();renderResults();show('results')};
+function stats(){const correct=QUESTIONS.filter((q,i)=>state.answers[i]===q.a).length;const answered=Object.keys(state.answers).length;return{correct,wrong:answered-correct,pending:50-answered,note:(correct/5).toFixed(2).replace('.',','),percent:correct*2}}
+function renderResults(){const s=stats();$('resultHeadline').textContent=s.correct>=40?'¡Gran trabajo!':s.correct>=25?'¡Vas por buen camino!':'Sigue practicando';$('who').textContent=state.name+' · '+state.date;$('kpis').innerHTML=[['Nota',s.note+' / 10'],['Aciertos',s.correct],['Errores',s.wrong],['Sin responder',s.pending],['Porcentaje',s.percent+' %']].map(x=>'<div class="kpi"><strong>'+x[1]+'</strong>'+x[0]+'</div>').join('');let totals=[];$('blocks').innerHTML=TITLES.slice(1).map((title,i)=>{let b=i+1,ids=QUESTIONS.map((q,idx)=>q.b===b?idx:-1).filter(idx=>idx>=0),good=ids.filter(idx=>state.answers[idx]===QUESTIONS[idx].a).length,rate=Math.round(good/ids.length*100);totals.push({b,title,rate});return '<div class="blockrow"><b>'+esc(title)+'</b><span>'+good+'/'+ids.length+'</span><strong>'+rate+' %</strong></div>'}).join('');const weak=totals.filter(b=>b.rate<80).sort((a,b)=>a.rate-b.rate);$('suggestions').innerHTML=weak.length?weak.map(b=>'<div class="tip">Repasa <b>'+esc(b.title)+'</b> ('+b.rate+' % de aciertos). Vuelve al apartado correspondiente de la Unidad 1.</div>').join(''):'<div class="tip">¡Buen resultado en todos los bloques! Revisa únicamente los errores puntuales.</div>';let html='';state.order.forEach((qi,k)=>{let q=QUESTIONS[qi],a=state.answers[qi],ok=a===q.a;html+='<div class="review"><div class="step">Pregunta '+(k+1)+' · Bloque '+q.b+'</div><h4>'+esc(q.q)+'</h4><p class="'+(ok?'correct':'wrong')+'">Tu respuesta: '+(a===undefined?'Sin responder':esc(q.o[a]))+'</p><p class="correct">Respuesta correcta: '+esc(q.o[q.a])+'</p><p class="quiet">'+esc(q.e)+'</p></div>'});$('reviewContent').innerHTML=html;$('reviewPanel').classList.add('hidden');$('toggleReview').textContent='Revisar mis respuestas'}
+$('toggleReview').onclick=()=>{let el=$('reviewPanel');el.classList.toggle('hidden');$('toggleReview').textContent=el.classList.contains('hidden')?'Revisar mis respuestas':'Ocultar revisión'};
+$('restart').onclick=()=>{if(!confirm('¿Quieres iniciar una partida nueva? Se sustituirá la anterior.'))return;$('student').value=state.name;start()};$('print').onclick=()=>window.print();
+const stored=localStorage.getItem(KEY);if(stored){try{let st=JSON.parse(stored);if(st&&st.order?.length===50&&st.choices?.length===50&&!st.submitted){$('resumeBox').classList.remove('hidden');$('student').value=st.name;$('resume').onclick=()=>{state=st;renderQuestion();show('quiz')};$('discard').onclick=()=>{localStorage.removeItem(KEY);$('resumeBox').classList.add('hidden')}}}catch(e){}}
+if(QUESTIONS.length!==50||[5,15,10,12,8].some((n,i)=>QUESTIONS.filter(q=>q.b===i+1).length!==n))alert('Error en el banco de preguntas.');
+</script></body></html>
